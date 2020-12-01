@@ -16,6 +16,25 @@ const StyledRow = styled(Row)`
   flex-grow: 1;
 `;
 
+const state = {
+  artistName: "Gorillaz",
+  artistUrl: "/artist/gorillaz",
+  isPlaying: false,
+  songProgress: "1:16",
+  songTime: "3:33",
+  songProgressPercentage: 30,
+  volume: 40,
+  // onShuffle
+  // onSkipBack
+  // onPause
+  // onPlay
+  // onSkipForward
+  // onRepeat
+  // onMonitor
+  // onSpeakerLow
+  // onSpeakerHigh
+};
+
 function App() {
   return (
     <Fragment>
@@ -23,7 +42,7 @@ function App() {
       <div className="App">
         <StyledContainer>
           <StyledRow></StyledRow>
-          <AudioPlayerBar />
+          <AudioPlayerBar {...state} />
         </StyledContainer>
       </div>
     </Fragment>
