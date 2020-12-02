@@ -20,7 +20,7 @@ class AudioPlayerBar extends Component {
     const Container = styled(Row)`
       height: 96px;
       background-color: #ffffff;
-      filter: drop-shadow(0px 4px 36px #e2e3ec);
+      box-shadow: 0px -2px 20px rgba(149, 142, 187, 0.25);
     `;
 
     const CurrentSongDetails = styled(Col)`
