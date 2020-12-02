@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import { Row, Col } from "./shared/Grid";
+import { Row, Col } from "../shared/Grid";
 import styled from "styled-components/macro";
-import IconButton from "./components/IconButton";
-import Bar from "./components/Bar";
-import img from "./img/gorillaz.png";
+import IconButton from "./IconButton";
+import Bar from "./Bar";
 import {
   SpeakerLow,
   SpeakerHigh,
@@ -12,7 +11,7 @@ import {
   Shuffle,
   Repeat,
   Play,
-  Monitor,
+  Gear,
   Pause,
 } from "phosphor-react";
 
@@ -21,10 +20,7 @@ class AudioPlayerBar extends Component {
     const Container = styled(Row)`
       height: 96px;
       background-color: #ffffff;
-      /* Fix drop shadow color */
       filter: drop-shadow(0px 4px 36px #e2e3ec);
-      /* position: absolute;
-      bottom: 0; */
     `;
 
     const CurrentSongDetails = styled(Col)`
@@ -35,7 +31,7 @@ class AudioPlayerBar extends Component {
 
     const Cover = styled.div`
       display: flex;
-      background-image: url(${img});
+      background-image: url(${(props) => props.songCover});
       background-size: cover;
       background-position: center center;
       width: 70px;
@@ -44,6 +40,7 @@ class AudioPlayerBar extends Component {
       margin-right: 25px;
       border-radius: 8px;
       border: 1px solid #b2b4c2;
+      flex-shrink: 0;
     `;
 
     const SongDetails = styled.div`
@@ -51,25 +48,28 @@ class AudioPlayerBar extends Component {
       flex-direction: column;
       justify-content: center;
       align-content: center;
+      white-space: nowrap;
 
       .title {
         margin: 0;
-        font-weight: 500;
-        color: #252d52;
+        font-weight: 600;
+        color: #252d52; // Black
         font-size: 16px;
         line-height: 24px;
       }
 
       .artist {
         margin: 0;
-        color: #a9abba;
+        color: #abb1c6; // Grey
         font-size: 14px;
         line-height: 21px;
-        font-weight: 500;
+        text-decoration: none;
+        :hover {
+          text-decoration: underline;
+        }
       }
     `;
 
-    // Second Column
     const Player = styled(Col)`
       display: flex;
       flex-direction: column;
@@ -90,36 +90,29 @@ class AudioPlayerBar extends Component {
       align-items: center;
 
       label {
-        font-size: 14px;
-        color: #a9abba;
+        font-size: 13px;
+        color: #abb1c6; //Grey
+      }
+
+      progress {
+        margin: 0 10px;
       }
     `;
 
-    const SongProgress = styled(Bar)`
-      width: 360px;
-    `;
-
-    // https://blog.campvanilla.com/building-a-progress-bar-component-using-reactjs-styled-components-516dc2c3075a
-
-    // Third Column
     const VolumeDevices = styled(Col)`
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: flex-end;
-      padding-right: 25px;
-    `;
-
-    const VolumeBar = styled(Bar)`
-      width: 180px;
+      margin-right: 25px;
     `;
 
     return (
       <Container>
         <CurrentSongDetails size={1}>
-          <Cover />
+          <Cover songCover={this.props.songCover} />
           <SongDetails>
-            <p className="title">Feel Good Inc.</p>
+            <p className="title">{this.props.songTitle}</p>
             <a href={this.props.artistUrl} className="artist">
               {this.props.artistName}
             </a>
@@ -132,13 +125,13 @@ class AudioPlayerBar extends Component {
             {this.props.isPlaying ? (
               <IconButton
                 style="rect"
-                icon={<Pause color="#ffffff" weight="fill" size={18} />}
+                icon={<Pause color="#ffffff" weight="fill" size={16} />}
                 onClick={this.props.onPause}
               />
             ) : (
               <IconButton
                 style="rect"
-                icon={<Play color="#ffffff" weight="fill" size={18} />}
+                icon={<Play color="#ffffff" weight="fill" size={16} />}
                 onClick={this.props.onPlay}
               />
             )}
@@ -159,7 +152,7 @@ class AudioPlayerBar extends Component {
         </Player>
 
         <VolumeDevices size={1}>
-          <IconButton icon={<Monitor />} onClick={this.props.onMonitor} />
+          <IconButton icon={<Gear />} onClick={this.props.onSettings} />
           <ProgressBar>
             <IconButton
               icon={<SpeakerLow />}
